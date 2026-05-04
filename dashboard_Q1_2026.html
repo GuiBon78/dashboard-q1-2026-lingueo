@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilan Q1 2026 — Pôle Sales Lingueo</title>
+<style>
+:root {
+  --bg: #F5F4F0;
+  --surface: #FFFFFF;
+  --border: #E2E0D8;
+  --text: #18170F;
+  --muted: #78756A;
+  --green: #0A5233;
+  --green-light: #E6F2EC;
+  --amber: #6B3F00;
+  --amber-light: #FDF2E3;
+  --red: #7A1515;
+  --red-light: #FDF0F0;
+  --blue: #1A3560;
+  --blue-light: #EBF0FA;
+  --r: 8px; --rs: 5px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page { max-width: 1120px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+.hdr { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; padding-bottom:1.25rem; border-bottom:2px solid var(--text); }
+.hdr h1 { font-size:26px; font-weight:700; letter-spacing:-.03em; line-height:1.1; }
+.hdr p { font-size:11px; color:var(--muted); margin-top:4px; font-family:'Courier New',monospace; }
+.hdr-badge { font-family:'Courier New',monospace; font-size:10px; padding:5px 13px; background:var(--text); color:var(--bg); border-radius:100px; letter-spacing:.05em; }
+
+.sec { margin-bottom:2rem; }
+.sec-ttl { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin-bottom:.8rem; display:flex; align-items:center; gap:10px; }
+.sec-ttl::after { content:''; flex:1; height:.5px; background:var(--border); }
+
+.card { background:var(--surface); border:.5px solid var(--border); border-radius:var(--r); padding:1rem 1.2rem; }
+
+.krow { display:grid; gap:9px; margin-bottom:9px; }
+.k4 { grid-template-columns:repeat(4,1fr); }
+.k5 { grid-template-columns:repeat(5,1fr); }
+.k6 { grid-template-columns:repeat(6,1fr); }
+.kpi { background:var(--surface); border:.5px solid var(--border); border-radius:var(--r); padding:.8rem 1rem; }
+.kpi.dark { background:var(--text); border-color:var(--text); }
+.kl { font-size:9.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:4px; }
+.kpi.dark .kl { color:rgba(255,255,255,.5); }
+.kv { font-size:20px; font-weight:700; letter-spacing:-.02em; line-height:1; }
+.kpi.dark .kv { color:#fff; }
+.ks { font-size:10.5px; color:var(--muted); margin-top:3px; }
+.kpi.dark .ks { color:rgba(255,255,255,.5); }
+.kv.g { color:var(--green); } .kv.a { color:var(--amber); } .kv.r { color:var(--red); }
+
+table { width:100%; border-collapse:collapse; font-size:11.5px; }
+th { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); padding:7px 9px; border-bottom:1px solid var(--border); text-align:right; white-space:nowrap; }
+th.l, td.l { text-align:left; }
+td { padding:7px 9px; border-bottom:.5px solid var(--border); text-align:right; vertical-align:middle; }
+tbody tr:last-child td { border-bottom:none; }
+tfoot td { padding:8px 9px; border-top:1px solid var(--text); font-weight:700; text-align:right; background:var(--bg); font-size:11.5px; border-bottom:none; }
+.vg { color:var(--green); font-weight:700; } .va { color:var(--amber); font-weight:700; } .vr { color:var(--red); font-weight:700; }
+td.name { font-weight:600; }
+
+.bdg { display:inline-block; font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:100px; }
+.bg { background:var(--green-light); color:var(--green); }
+.ba { background:var(--amber-light); color:var(--amber); }
+.br { background:var(--red-light); color:var(--red); }
+.bb { background:var(--blue-light); color:var(--blue); }
+.bd { background:var(--text); color:var(--bg); }
+
+.note { font-size:10.5px; color:var(--muted); margin-top:.55rem; padding:.5rem .7rem; background:var(--bg); border-radius:var(--rs); border-left:2px solid var(--border); line-height:1.6; }
+.note.warn { border-color:#B8740A; background:var(--amber-light); color:var(--amber); }
+.note.err  { border-color:#9B1A1A; background:var(--red-light);   color:var(--red);   }
+.note.ok   { border-color:#0A5233; background:var(--green-light); color:var(--green); }
+.note.info { border-color:#1A3560; background:var(--blue-light);  color:var(--blue);  }
+
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+.fstep { display:flex; align-items:center; gap:9px; margin-bottom:7px; }
+.flbl  { font-size:10.5px; color:var(--muted); width:135px; flex-shrink:0; }
+.ftrack { flex:1; background:var(--border); border-radius:3px; height:7px; overflow:hidden; }
+.ffill  { height:7px; border-radius:3px; }
+.fval  { font-size:10.5px; font-weight:700; width:55px; text-align:right; flex-shrink:0; }
+.frate { font-size:9.5px; font-family:'Courier New',monospace; width:75px; text-align:right; flex-shrink:0; }
+.frate.g{color:var(--green);} .frate.a{color:var(--amber);} .frate.r{color:var(--red);}
+
+.sc { border:.5px solid var(--border); border-radius:var(--r); padding:1rem; text-align:center; }
+.sc-l { font-size:9.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; }
+.sc-v { font-size:22px; font-weight:700; letter-spacing:-.02em; }
+.sc-s { font-size:10.5px; color:var(--muted); margin-top:3px; }
+.sc.g .sc-v{color:var(--green);} .sc.b .sc-v{color:var(--blue);} .sc.r .sc-v{color:var(--red);}
+
+.t5 { display:flex; align-items:center; gap:11px; padding:9px 0; border-bottom:.5px solid var(--border); }
+.t5:last-child { border-bottom:none; }
+.t5-rk { font-family:'Courier New',monospace; font-size:10px; color:var(--muted); width:18px; flex-shrink:0; }
+.t5-nm { flex:1; font-weight:600; font-size:12px; }
+.t5-bw { width:110px; flex-shrink:0; }
+.t5-bg { background:var(--border); border-radius:3px; height:4px; overflow:hidden; }
+.t5-bf { height:4px; border-radius:3px; background:var(--text); }
+.t5-am { font-family:'Courier New',monospace; font-size:11px; font-weight:600; width:75px; text-align:right; flex-shrink:0; }
+
+.mc { border:.5px solid var(--border); border-radius:var(--r); padding:1.2rem; }
+.mc.g { border-top:3px solid #1D9E75; } .mc.a { border-top:3px solid #2563EB; } .mc.v { border-top:3px solid #7C3AED; }
+.ml { font-size:40px; font-weight:700; letter-spacing:-.04em; line-height:1; margin-bottom:3px; }
+.mc.g .ml{color:var(--green);} .mc.a .ml{color:var(--blue);} .mc.v .ml{color:#4C1D95;}
+.mn { font-size:13px; font-weight:700; margin-bottom:.5rem; }
+.md { font-size:11px; color:var(--muted); line-height:1.65; }
+.md strong { color:var(--text); font-weight:600; }
+
+.eti-box { background:var(--amber-light); border:.5px solid #C8860A; border-radius:var(--r); padding:1rem 1.2rem; margin-top:10px; }
+.eti-ttl { font-size:9.5px; font-weight:700; color:var(--amber); text-transform:uppercase; letter-spacing:.07em; margin-bottom:5px; }
+.eti-txt { font-size:11px; color:var(--amber); line-height:1.7; }
+.eti-txt strong { font-weight:700; }
+
+.tw { overflow-x:auto; }
+.footer { margin-top:2.5rem; padding-top:1.2rem; border-top:.5px solid var(--border); display:flex; justify-content:space-between; font-size:9.5px; color:var(--muted); font-family:'Courier New',monospace; }
+
+.pbar { position:fixed; top:0; left:0; right:0; background:var(--text); color:var(--bg); padding:9px 2rem; display:flex; justify-content:space-between; align-items:center; font-size:11px; z-index:100; }
+.pbtn { background:var(--bg); color:var(--text); border:none; padding:5px 16px; border-radius:100px; font-size:11px; font-weight:700; cursor:pointer; }
+.pbtn:hover { background:#ddd; }
+
+@media print {
+  .pbar, .no-print { display:none!important; }
+  body { background:#fff; font-size:10.5px; }
+  .page { padding:1.2rem; max-width:100%; margin-top:0; }
+  .sec { page-break-inside:avoid; margin-bottom:1.4rem; }
+  .kv { font-size:16px; } th { font-size:8.5px; padding:5px 6px; }
+  td, tfoot td { padding:5px 6px; font-size:10px; }
+  .md, .note { font-size:9.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="pbar no-print">
+  <span>Bilan Q1 2026 — Pôle Sales Lingueo</span>
+  <button class="pbtn" onclick="window.print()">⬇ Exporter PDF</button>
+</div>
+
+<div class="page" style="margin-top:3rem">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <h1>Bilan Q1 2026 — Pôle Sales Lingueo</h1>
+    <p>Données au 30 avril 2026 · Source Salesforce + Aircall</p>
+  </div>
+  <div class="hdr-badge">CONFIDENTIEL INTERNE</div>
+</div>
+
+<!-- ══ 1. KPI GLOBAUX ══ -->
+<div class="sec">
+  <div class="sec-ttl">KPIs globaux — Q1 2026</div>
+
+  <div class="krow k6" style="margin-bottom:9px">
+    <div class="kpi">
+      <div class="kl">PO globale réalisée Q1</div>
+      <div class="kv a">1 011k€</div>
+      <div class="ks">obj. Q1 : 1 084k€</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Atteinte obj. global Q1</div>
+      <div class="kv a">93,3%</div>
+      <div class="ks">−73k€ vs objectif trimestriel</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">NB réalisé Q1</div>
+      <div class="kv g">547k€</div>
+      <div class="ks">obj. NB Q1 : 535k€</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Atteinte obj. NB Q1</div>
+      <div class="kv g">102,3%</div>
+      <div class="ks">NB légèrement au-dessus</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Renew réalisé Q1</div>
+      <div class="kv a">464k€</div>
+      <div class="ks">obj. Renew Q1 : 549k€</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Atteinte obj. Renew Q1</div>
+      <div class="kv a">84,5%</div>
+      <div class="ks">−85k€ : seule source du manque</div>
+    </div>
+  </div>
+
+  <div class="krow k5">
+    <div class="kpi">
+      <div class="kl">Avancement obj. annuel global</div>
+      <div class="kv a">23,3%</div>
+      <div class="ks">obj. annuel équipe 4 335k€</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Win rate B2B</div>
+      <div class="kv g">91%</div>
+      <div class="ks">norme secteur 55–65%</div>
+    </div>
+    <div class="kpi">
+      <div class="kl">Cycle médian B2B</div>
+      <div class="kv">38j</div>
+      <div class="ks">PME 27j · ETI 77j</div>
+    </div>
+    <div class="kpi dark">
+      <div class="kl">PM cible PME</div>
+      <div class="kv">5 000€</div>
+      <div class="ks">DI/CPF capé état ~1 500€</div>
+    </div>
+    <div class="kpi dark">
+      <div class="kl">PM cible ETI</div>
+      <div class="kv">15 000€</div>
+      <div class="ks">PM Genia réel Q1 : 2 456€</div>
+    </div>
+  </div>
+
+  <div class="note warn">⚠ Le manque de 73k€ en global Q1 vient <strong>exclusivement du renew (−85k€)</strong>. Le NB est à +2,3% sur son objectif trimestriel. NB et renew sont deux indicateurs indépendants qui n'ont pas le même diagnostic ni le même plan d'action.</div>
+</div>
+
+<!-- ══ 2. PERFORMANCE PAR SALES ══ -->
+<div class="sec">
+  <div class="sec-ttl">Performance par sales — NB / Renew / Global — lecture strictement séparée</div>
+
+  <div class="card">
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" rowspan="2" style="vertical-align:bottom">Sales · scope</th>
+            <th colspan="3" style="text-align:center;background:#F0FAF5;border-bottom:.5px solid #C8E6D8">NB — New Business Q1</th>
+            <th colspan="3" style="text-align:center;background:#FDF8F0;border-bottom:.5px solid #F0D8B0">Renew Q1</th>
+            <th colspan="3" style="text-align:center;border-bottom:.5px solid var(--border)">Global Q1 (NB + Renew)</th>
+            <th colspan="2" style="text-align:center;background:#EBF0FA;border-bottom:.5px solid #C0D0EC">Obj. NB annuel</th>
+          </tr>
+          <tr>
+            <th style="background:#F0FAF5">Obj. NB Q1</th>
+            <th style="background:#F0FAF5">NB réalisé</th>
+            <th style="background:#F0FAF5">% obj. NB Q1</th>
+            <th style="background:#FDF8F0">Obj. Renew Q1</th>
+            <th style="background:#FDF8F0">Renew réalisé</th>
+            <th style="background:#FDF8F0">% obj. Renew Q1</th>
+            <th>Obj. total Q1</th>
+            <th>Total réalisé</th>
+            <th>% obj. global Q1</th>
+            <th style="background:#EBF0FA">Obj. NB annuel</th>
+            <th style="background:#EBF0FA">NB Q1 / annuel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="l name">Julie · PME &amp; DI</td>
+            <td style="background:#F8FCF9">150 000€</td>
+            <td style="background:#F8FCF9" class="vg">167 770€</td>
+            <td style="background:#F8FCF9"><span class="bdg bg">+111,8%</span></td>
+            <td style="background:#FDFAF5">100 000€</td>
+            <td style="background:#FDFAF5" class="vg">111 846€</td>
+            <td style="background:#FDFAF5"><span class="bdg bg">+111,8%</span></td>
+            <td>250 000€</td><td class="vg">279 616€</td>
+            <td><span class="bdg bg">+111,8%</span></td>
+            <td style="background:#EFF4FC">1 000 000€</td>
+            <td style="background:#EFF4FC">16,8%</td>
+          </tr>
+          <tr>
+            <td class="l name">Daniel · PME &amp; DI</td>
+            <td style="background:#F8FCF9">150 000€</td>
+            <td style="background:#F8FCF9" class="vg">158 386€</td>
+            <td style="background:#F8FCF9"><span class="bdg bg">+105,6%</span></td>
+            <td style="background:#FDFAF5">100 000€</td>
+            <td style="background:#FDFAF5" class="vg">105 590€</td>
+            <td style="background:#FDFAF5"><span class="bdg bg">+105,6%</span></td>
+            <td>250 000€</td><td class="vg">263 976€</td>
+            <td><span class="bdg bg">+105,6%</span></td>
+            <td style="background:#EFF4FC">1 000 000€</td>
+            <td style="background:#EFF4FC">15,8%</td>
+          </tr>
+          <tr>
+            <td class="l name">Rony · PME &amp; DI</td>
+            <td style="background:#F8FCF9">50 000€</td>
+            <td style="background:#F8FCF9" class="vg">52 402€</td>
+            <td style="background:#F8FCF9"><span class="bdg bg">+104,8%</span></td>
+            <td style="background:#FDFAF5">97 118€</td>
+            <td style="background:#FDFAF5" class="vr">36 233€</td>
+            <td style="background:#FDFAF5"><span class="bdg br">37,3%</span></td>
+            <td>147 118€</td><td class="va">88 635€</td>
+            <td><span class="bdg ba">60,2%</span></td>
+            <td style="background:#EFF4FC">200 000€</td>
+            <td style="background:#EFF4FC" class="vg">26,2%</td>
+          </tr>
+          <tr>
+            <td class="l name">Genia · ETI</td>
+            <td style="background:#F8FCF9">75 000€</td>
+            <td style="background:#F8FCF9" class="va">43 803€</td>
+            <td style="background:#F8FCF9"><span class="bdg ba">58,4%</span></td>
+            <td style="background:#FDFAF5">80 314€</td>
+            <td style="background:#FDFAF5" class="va">35 867€</td>
+            <td style="background:#FDFAF5"><span class="bdg ba">44,7%</span></td>
+            <td>155 314€</td><td class="va">79 670€</td>
+            <td><span class="bdg ba">51,3%</span></td>
+            <td style="background:#EFF4FC">300 000€</td>
+            <td style="background:#EFF4FC" class="va">14,6%</td>
+          </tr>
+          <tr>
+            <td class="l name">Sarah · ETI</td>
+            <td style="background:#F8FCF9">60 000€</td>
+            <td style="background:#F8FCF9" class="vr">0€</td>
+            <td style="background:#F8FCF9"><span class="bdg br">0%</span></td>
+            <td style="background:#FDFAF5">8 156€</td>
+            <td style="background:#FDFAF5" class="vr">1 390€</td>
+            <td style="background:#FDFAF5"><span class="bdg br">17,0%</span></td>
+            <td>68 156€</td><td class="vr">1 390€</td>
+            <td><span class="bdg br">2,0%</span></td>
+            <td style="background:#EFF4FC">240 000€</td>
+            <td style="background:#EFF4FC" class="vr">0%</td>
+          </tr>
+          <tr>
+            <td class="l name">Guillaume · GC</td>
+            <td style="background:#F8FCF9">50 000€</td>
+            <td style="background:#F8FCF9" class="vg">115 000€</td>
+            <td style="background:#F8FCF9"><span class="bdg bg">+230%</span></td>
+            <td style="background:#FDFAF5">163 111€</td>
+            <td style="background:#FDFAF5" class="vg">166 221€</td>
+            <td style="background:#FDFAF5"><span class="bdg bg">+101,9%</span></td>
+            <td>213 111€</td><td class="vg">281 221€</td>
+            <td><span class="bdg bg">+132%</span></td>
+            <td style="background:#EFF4FC">200 000€</td>
+            <td style="background:#EFF4FC" class="vg">57,5%</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="l">Total équipe</td>
+            <td style="background:#F0FAF5">535 000€</td>
+            <td style="background:#F0FAF5" class="vg">537 242€</td>
+            <td style="background:#F0FAF5">+102,3%</td>
+            <td style="background:#FDF8F0">548 699€</td>
+            <td style="background:#FDF8F0" class="va">463 735€</td>
+            <td style="background:#FDF8F0" class="va">84,5%</td>
+            <td>1 083 699€</td><td class="va">1 010 977€</td><td class="va">93,3%</td>
+            <td style="background:#EBF0FA">2 940 000€</td>
+            <td style="background:#EBF0FA">18,3%</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="note" style="margin-top:.65rem">
+      <strong>Règle de lecture :</strong> chaque groupe de colonnes (NB / Renew / Global) est indépendant. Exemple Rony : NB Q1 à +104,8% (objectif NB atteint), Renew Q1 à 37,3% (portefeuille en souffrance), Global Q1 à 60,2% (combiné). Ce sont trois diagnostics différents qui n'appellent pas le même plan d'action.
+    </div>
+  </div>
+
+  <div class="eti-box">
+    <div class="eti-ttl">⚠ Double problème ETI — deux diagnostics distincts, deux plans d'action distincts</div>
+    <div class="eti-txt">
+      <strong>Sarah — NB Q1 : 0€ sur 60k€ d'objectif (0%) :</strong> aucun deal NB signé, 0,5 RDV NB/sem, accroche téléphonique à 1,4% (la plus faible de l'équipe). Urgence absolue : débrief deal by deal des 6 opps perdues en Q1 (≈90k€, PM ~15k€ chacune) avant tout autre chantier. Le problème est en amont — volume de prospection et pitch d'accroche.<br><br>
+      <strong>Genia — NB Q1 : 43 803€ sur 75k€ d'objectif (58,4%) :</strong> elle signe — 17 deals en Q1 — mais sur des tickets PME, pas ETI. PM moyen réel Q1 : <strong>2 456€</strong> vs cible ETI 15 000€. 16 deals sur 17 sont sous les 5 000€. Elle a la mécanique et le win rate (90%). Le problème est la taille des tickets : elle n'a pas encore l'assise de closing sur des décideurs ETI à fort budget.
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. TOP 5 + FUNNEL ══ -->
+<div class="sec">
+  <div class="sec-ttl">Top 5 clients Q1 · Funnel de conversion</div>
+  <div class="g2">
+    <div class="card">
+      <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.8rem">Top 5 comptes — PO signée Q1 2026</div>
+      <div class="t5"><div class="t5-rk">#1</div><div class="t5-nm">Air France <span class="bdg bb" style="margin-left:4px">GC</span></div><div class="t5-bw"><div class="t5-bg"><div class="t5-bf" style="width:100%"></div></div></div><div class="t5-am">151 200€</div></div>
+      <div class="t5"><div class="t5-rk">#2</div><div class="t5-nm">Pierre Yves Rochon <span class="bdg bd" style="margin-left:4px">GC</span></div><div class="t5-bw"><div class="t5-bg"><div class="t5-bf" style="width:17%"></div></div></div><div class="t5-am">26 100€</div></div>
+      <div class="t5"><div class="t5-rk">#3</div><div class="t5-nm">Adikteev <span class="bdg bb" style="margin-left:4px">PME</span></div><div class="t5-bw"><div class="t5-bg"><div class="t5-bf" style="width:14%"></div></div></div><div class="t5-am">21 250€</div></div>
+      <div class="t5"><div class="t5-rk">#4</div><div class="t5-nm">France Travail <span class="bdg bb" style="margin-left:4px">DI</span></div><div class="t5-bw"><div class="t5-bg"><div class="t5-bf" style="width:14%"></div></div></div><div class="t5-am">20 534€</div></div>
+      <div class="t5"><div class="t5-rk">#5</div><div class="t5-nm">Lactalis Formation <span class="bdg bd" style="margin-left:4px">GC</span></div><div class="t5-bw"><div class="t5-bg"><div class="t5-bf" style="width:13%"></div></div></div><div class="t5-am">19 700€</div></div>
+      <div class="note">Air France = 28% du top 5. Dépendance au flux GC/entrant à réduire via montée en puissance ETI.</div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.8rem">Funnel B2B prospection — Rony · Genia · Sarah</div>
+      <div class="fstep"><div class="flbl">Appels sortants</div><div class="ftrack"><div class="ffill" style="width:100%;background:#18170F"></div></div><div class="fval">6 305</div><div class="frate"></div></div>
+      <div class="fstep"><div class="flbl">Connectés &gt;58s</div><div class="ftrack"><div class="ffill" style="width:90%;background:#0A5233"></div></div><div class="fval" style="color:var(--green)">5 676</div><div class="frate g">90,1% ✓</div></div>
+      <div class="fstep"><div class="flbl">RDV pris</div><div class="ftrack"><div class="ffill" style="width:5%;background:#B8740A"></div></div><div class="fval" style="color:var(--amber)">~306</div><div class="frate a">5,4% ⚠</div></div>
+      <div class="fstep"><div class="flbl">Opps ouvertes</div><div class="ftrack"><div class="ffill" style="width:3%;background:#B8740A"></div></div><div class="fval" style="color:var(--amber)">~198</div><div class="frate a">64,7%</div></div>
+      <div class="fstep"><div class="flbl">Deals gagnés B2B</div><div class="ftrack"><div class="ffill" style="width:2%;background:#0A5233"></div></div><div class="fval" style="color:var(--green)">119</div><div class="frate g">91% win ✓</div></div>
+      <table style="margin-top:12px">
+        <thead><tr><th class="l">Étape</th><th>Rony</th><th>Genia</th><th>Sarah</th><th>Obj.</th></tr></thead>
+        <tbody>
+          <tr><td class="l">Connexion</td><td class="vg">90,5%</td><td class="vg">90,5%</td><td class="vg">89,3%</td><td>88%</td></tr>
+          <tr><td class="l">Connecté → RDV</td><td class="va">2,8%</td><td class="va">3,8%</td><td class="vr">1,4%</td><td>5–8%</td></tr>
+          <tr><td class="l">RDV NB / sem réels</td><td class="va">4/sem</td><td class="vr">1,5/sem</td><td class="vr">0,5/sem</td><td>5/sem</td></tr>
+          <tr><td class="l">Win rate</td><td class="vg">91%</td><td class="vg">90%</td><td class="vg">86%</td><td>75%</td></tr>
+          <tr><td class="l">PM moyen réel Q1</td><td class="vr">2 875€</td><td class="vr">2 456€</td><td>—</td><td>PME 5k / ETI 15k</td></tr>
+        </tbody>
+      </table>
+      <div class="note warn" style="margin-top:.6rem">Maillon faible : connecté → RDV. Doubler ce taux (5% → 10%) = doubler le pipe sans 1 appel de plus.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. ABAQUE ══ -->
+<div class="sec">
+  <div class="sec-ttl">Abaque NB — de l'objectif annuel aux actions hebdomadaires (Q2→Q4 · 9 mois restants)</div>
+  <div class="card">
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th class="l">Sales</th>
+            <th>Obj. NB annuel</th>
+            <th>NB Q1 réalisé</th>
+            <th>Restant Q2→Q4</th>
+            <th>PM cible</th>
+            <th>Deals / mois</th>
+            <th>Deals / sem</th>
+            <th>Deals / jour</th>
+            <th>RDV NB / sem</th>
+            <th>Appels / sem</th>
+            <th>Sessions calling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="l name">Julie · DI/CPF</td>
+            <td>1 000 000€</td><td class="vg">167 770€</td><td>832 230€</td>
+            <td>1 500€ <span class="bdg ba" style="font-size:8.5px">capé état</span></td>
+            <td><strong>61,6</strong></td><td><strong>15,4</strong></td><td><strong>3,1</strong></td>
+            <td>5</td><td>~80</td><td>2 × 2h</td>
+          </tr>
+          <tr>
+            <td class="l name">Daniel · DI/CPF</td>
+            <td>1 000 000€</td><td class="vg">158 386€</td><td>841 614€</td>
+            <td>1 500€ <span class="bdg ba" style="font-size:8.5px">capé état</span></td>
+            <td><strong>62,4</strong></td><td><strong>15,6</strong></td><td><strong>3,1</strong></td>
+            <td>5</td><td>~80</td><td>2 × 2h</td>
+          </tr>
+          <tr>
+            <td class="l name">Rony · PME</td>
+            <td>200 000€</td><td class="vg">52 402€</td><td>147 598€</td>
+            <td>5 000€</td>
+            <td><strong>3,3</strong></td><td><strong>0,8</strong></td><td><strong>0,2</strong></td>
+            <td>5</td><td>~80</td><td>2 × 2h</td>
+          </tr>
+          <tr>
+            <td class="l name">Genia · ETI</td>
+            <td>300 000€</td><td class="va">43 803€</td><td>256 197€</td>
+            <td>15 000€</td>
+            <td><strong>2,8</strong></td><td><strong>0,7</strong></td><td><strong>0,1</strong></td>
+            <td>5</td><td>~80</td><td>2 × 2h</td>
+          </tr>
+          <tr>
+            <td class="l name">Sarah · ETI</td>
+            <td>240 000€</td><td class="vr">0€</td><td>240 000€</td>
+            <td>15 000€</td>
+            <td><strong>2,7</strong></td><td><strong>0,7</strong></td><td><strong>0,1</strong></td>
+            <td>5</td><td>~80</td><td>2 × 2h</td>
+          </tr>
+          <tr>
+            <td class="l name">Guillaume · GC</td>
+            <td>200 000€</td><td class="vg">115 000€</td><td>85 000€</td>
+            <td>30 000€+</td>
+            <td><strong>~1</strong></td><td>0,2</td><td>—</td>
+            <td>3</td><td>Account-based</td><td>Réseau / events</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="l">Total NB équipe</td>
+            <td>2 940 000€</td><td>537 242€</td><td>2 402 758€</td>
+            <td>—</td>
+            <td>~134 deals/mois</td><td>~33/sem</td><td>~6,5/jour</td>
+            <td>28 RDV/sem</td><td>~400/sem</td><td>5 sessions min.</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="note info">Calcul Julie &amp; Daniel : (Obj. NB annuel − NB Q1 réalisé) ÷ 9 mois ÷ 4 sem. ÷ 5 jours ÷ PM 1 500€ = <strong>3,1 deals/jour</strong>. Julie signait déjà 1,6 deal/jour réel en Q1 (102 deals / 65j ouvrés), Daniel 1,5/jour (99 deals). Mécanique flux entrant opérationnelle — il faut quasiment doubler le rythme, enjeu de volume entrant autant que de closing.</div>
+    <div class="note warn" style="margin-top:6px">ETI — cycle médian NB : 77j. Tout deal ouvert après fin mai ne closera pas avant fin Q2. <strong>La fenêtre se ferme maintenant.</strong></div>
+  </div>
+</div>
+
+<!-- ══ 5. ATTERRISSAGE ══ -->
+<div class="sec">
+  <div class="sec-ttl">Projection atterrissage 2026 — 3 scénarios</div>
+  <div class="g3" style="margin-bottom:10px">
+    <div class="sc r"><div class="sc-l">Scénario prudent (×3 Q1)</div><div class="sc-v">3 033k€</div><div class="sc-s">70% obj. annuel · sans accélération</div></div>
+    <div class="sc b"><div class="sc-l">Scénario base (saisonnalité Q3/Q4)</div><div class="sc-v">3 600k€</div><div class="sc-s">83% obj. · sans rattrapage ETI</div></div>
+    <div class="sc g"><div class="sc-l">Scénario objectif</div><div class="sc-v">4 335k€</div><div class="sc-s">100% · PM PME 5k + ETI actif</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.7rem">Pipe NB ouvert 2026</div>
+      <table><tbody>
+        <tr><td class="l">Opps actives NB</td><td>101 opportunités</td></tr>
+        <tr><td class="l">Montant total pipe NB</td><td><strong>288 000€</strong></td></tr>
+        <tr><td class="l">PM moyen affiché</td><td class="va">2 856€</td></tr>
+        <tr><td class="l">PM cible PME / ETI</td><td>5 000€ / 15 000€</td></tr>
+      </tbody></table>
+      <div class="note warn" style="margin-top:.5rem">PM pipe NB trop faible. Priorité Q2 : requalifier les opps, monter les tickets, créer de nouvelles opps ETI qualifiées.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.7rem">Pipe Renew en cours 2026</div>
+      <table><tbody>
+        <tr><td class="l">Base PO 2025 à renouveler</td><td>1 450 000€</td></tr>
+        <tr><td class="l">Churn estimé (35%)</td><td class="vr">−507 500€</td></tr>
+        <tr><td class="l">Renew net attendu (65%)</td><td class="vg">942 500€</td></tr>
+        <tr><td class="l">Renew réalisé Q1</td><td class="va">463 735€</td></tr>
+        <tr><td class="l">Renew restant Q2→Q4</td><td>~478 765€</td></tr>
+      </tbody></table>
+      <div class="note" style="margin-top:.5rem">Renew Q1 à 84,5% — 85k€ de manque. Identifier les comptes à risque et les traiter dès Q2.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 6. MINDSET GAV ══ -->
+<div class="sec">
+  <div class="sec-ttl">Mindset — framework GAV</div>
+  <div class="g3">
+    <div class="mc g">
+      <div class="ml">G</div>
+      <div class="mn">Guidance</div>
+      <div class="md">Vous avez accès à la bonne info, la bonne méthode et des objectifs clairs — points de lancement de semaine, briefs, slides. Utilisez ces ressources avant de tâtonner seul.<br><br><strong>Les équipes support amplifient vos actions — elles ne vous remplacent pas.</strong> <strong>William (ADV)</strong> gère devis et conventions dès accord de principe : son rôle est de libérer votre temps de vente. <strong>Chloé (CSM)</strong> gère la relation apprenant post-signature et crée les conditions du renew — elle ne fait pas à votre place le suivi client amont. Savoir quand les actionner et pour quoi : c'est ça, la guidance.</div>
+    </div>
+    <div class="mc a">
+      <div class="ml">A</div>
+      <div class="mn">Analytique</div>
+      <div class="md">La vente n'est pas une question de feeling — c'est un process millimétré. Chaque action, chaque relance, chaque priorité doit passer par une analyse et une autocritique avant de foncer.<br><br><strong>Votre win rate est à 91%</strong> — vous savez closer, c'est acté. Le problème est dans l'accroche (5,4% connecté→RDV vs obj. 8%) et le panier moyen (Genia 2 456€ vs cible ETI 15k, Rony 2 875€ vs cible PME 5k). Lisez vos chiffres, questionnez-les. Chaque décision doit avoir une raison chiffrée.</div>
+    </div>
+    <div class="mc v">
+      <div class="ml">V</div>
+      <div class="mn">Valeurs</div>
+      <div class="md">C'est vous qui faites la différence — pas le prix, pas la brochure. Votre personnalité, votre implication, votre sens du détail, votre maîtrise produit.<br><br>Testez nos formations, spécialisez-vous sur votre segment, poussez la découverte des besoins à fond. <strong>Parlez de Lingueo en bénéfices, jamais en caractéristiques.</strong> Un client sent si vous croyez en ce que vous vendez — ou si vous lisez une fiche. Votre conviction est votre meilleur argument. Personne ne peut vous la donner.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Bilan Q1 2026 · Pôle Sales Lingueo · Confidentiel interne</span>
+  <span>Généré le 01/05/2026 · Source : Salesforce + Aircall</span>
+</div>
+
+</div>
+</body>
+</html>
